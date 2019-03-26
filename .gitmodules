@@ -1,0 +1,3 @@
+[submodule "camera_control_msgs"]
+	path = camera_control_msgs
+	url = https://github.com/magazino/camera_control_msgs.git

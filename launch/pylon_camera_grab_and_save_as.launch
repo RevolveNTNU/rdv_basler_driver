@@ -4,7 +4,7 @@
     <arg name="node_name" default="pylon_camera_grab_and_save_as" />
     <arg name="camera_name" default="/pylon_camera_node" />
 
-    <node name="$(arg node_name)" pkg="pylon_camera"
+    <node name="$(arg node_name)" pkg="rdv_basler_driver"
           type="grab_and_save_image_action_server.py" output="screen"
           respawn="$(arg respawn)">
         <param name="camera_name" value="$(arg camera_name)" type="string" />

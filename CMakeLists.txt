@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(pylon_camera)
+project(rdv_basler_driver)
 
 add_definitions("-std=gnu++11")
 #set(CMAKE_CXX_FLAGS "-g -Wall -Wno-unknown-pragmas -Wno-delete-non-virtual-dtor -Wno-unused-variable")
@@ -33,7 +33,7 @@ catkin_package(
     INCLUDE_DIRS
      include
     LIBRARIES
-     ${PROJECT_NAME}
+     pylon_camera
     CATKIN_DEPENDS
      ${CATKIN_COMPONENTS}
 )
@@ -44,23 +44,23 @@ set(
 )
 
 roslint_cpp(
-    src/${PROJECT_NAME}/binary_exposure_search.cpp
-    src/${PROJECT_NAME}/encoding_conversions.cpp
-    src/${PROJECT_NAME}/main.cpp
-    src/${PROJECT_NAME}/${PROJECT_NAME}_node.cpp
-    src/${PROJECT_NAME}/${PROJECT_NAME}_parameter.cpp
-    src/${PROJECT_NAME}/${PROJECT_NAME}.cpp
-    src/${PROJECT_NAME}/write_device_user_id_to_camera.cpp
-    include/${PROJECT_NAME}/binary_exposure_search.h
-    include/${PROJECT_NAME}/encoding_conversions.h
-    include/${PROJECT_NAME}/${PROJECT_NAME}_node.h
-    include/${PROJECT_NAME}/${PROJECT_NAME}_parameter.h
-    include/${PROJECT_NAME}/${PROJECT_NAME}.h
-    include/${PROJECT_NAME}/internal/${PROJECT_NAME}.h
-    include/${PROJECT_NAME}/internal/impl/${PROJECT_NAME}_base.hpp
-    include/${PROJECT_NAME}/internal/impl/${PROJECT_NAME}_dart.hpp
-    include/${PROJECT_NAME}/internal/impl/${PROJECT_NAME}_gige.hpp
-    include/${PROJECT_NAME}/internal/impl/${PROJECT_NAME}_usb.hpp
+    src/pylon_camera/binary_exposure_search.cpp
+    src/pylon_camera/encoding_conversions.cpp
+    src/pylon_camera/main.cpp
+    src/pylon_camera/pylon_camera_node.cpp
+    src/pylon_camera/pylon_camera_parameter.cpp
+    src/pylon_camera/pylon_camera.cpp
+    src/pylon_camera/write_device_user_id_to_camera.cpp
+    include/pylon_camera/binary_exposure_search.h
+    include/pylon_camera/encoding_conversions.h
+    include/pylon_camera/pylon_camera_node.h
+    include/pylon_camera/pylon_camera_parameter.h
+    include/pylon_camera/pylon_camera.h
+    include/pylon_camera/internal/pylon_camera.h
+    include/pylon_camera/internal/impl/pylon_camera_base.hpp
+    include/pylon_camera/internal/impl/pylon_camera_dart.hpp
+    include/pylon_camera/internal/impl/pylon_camera_gige.hpp
+    include/pylon_camera/internal/impl/pylon_camera_usb.hpp
 )
 
 roslaunch_add_file_check(launch)
@@ -73,39 +73,39 @@ include_directories(
 
 # Add library
 add_library(
-    ${PROJECT_NAME}
-     src/${PROJECT_NAME}/binary_exposure_search.cpp
-     src/${PROJECT_NAME}/encoding_conversions.cpp
-     src/${PROJECT_NAME}/${PROJECT_NAME}.cpp
-     src/${PROJECT_NAME}/${PROJECT_NAME}_node.cpp
-     src/${PROJECT_NAME}/${PROJECT_NAME}_parameter.cpp
+    pylon_camera
+     src/pylon_camera/binary_exposure_search.cpp
+     src/pylon_camera/encoding_conversions.cpp
+     src/pylon_camera/pylon_camera.cpp
+     src/pylon_camera/pylon_camera_node.cpp
+     src/pylon_camera/pylon_camera_parameter.cpp
 )
 
 target_link_libraries(
-    ${PROJECT_NAME}
+    pylon_camera
      ${catkin_LIBRARIES}
      ${Pylon_LIBRARIES}
 )
 
 add_dependencies(
-    ${PROJECT_NAME}
+    pylon_camera
      ${catkin_EXPORTED_TARGETS}
 )
 
 # Add pylon_camera_node
 add_executable(
-    ${PROJECT_NAME}_node
-     src/${PROJECT_NAME}/main.cpp
+    pylon_camera_node
+     src/pylon_camera/main.cpp
 )
 
 target_link_libraries(
-    ${PROJECT_NAME}_node
-     ${PROJECT_NAME}
+    pylon_camera_node
+     pylon_camera
 )
 
 add_executable(
     write_device_user_id_to_camera
-     src/${PROJECT_NAME}/write_device_user_id_to_camera.cpp
+     src/pylon_camera/write_device_user_id_to_camera.cpp
 )
 
 target_link_libraries(
@@ -114,7 +114,7 @@ target_link_libraries(
 )
 
 add_dependencies(
-    ${PROJECT_NAME}_node
+    pylon_camera_node
      ${catkin_EXPORTED_TARGETS}
 )
 
@@ -149,8 +149,8 @@ install(
 
 install(
     TARGETS
-     ${PROJECT_NAME}
-     ${PROJECT_NAME}_node
+     pylon_camera
+     pylon_camera_node
      write_device_user_id_to_camera
     LIBRARY DESTINATION
      ${CATKIN_PACKAGE_LIB_DESTINATION}
@@ -160,7 +160,7 @@ install(
 
 install(
     DIRECTORY
-     include/${PROJECT_NAME}/
+     include/pylon_camera/
     DESTINATION
      ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
     FILES_MATCHING PATTERN
@@ -180,8 +180,8 @@ file(GLOB children ${CMAKE_CURRENT_SOURCE_DIR}/*)
 foreach(child ${children})
   if(IS_DIRECTORY ${child})
     file(GLOB_RECURSE dir_files "${child}/*")
-    list(APPEND ${PROJECT_NAME}_extra_files ${dir_files})
+    list(APPEND pylon_camera_extra_files ${dir_files})
   endif()
 endforeach()
-add_custom_target(dummy_${PROJECT_NAME} SOURCES ${${PROJECT_NAME}_extra_files})
+add_custom_target(dummy_pylon_camera SOURCES ${pylon_camera_extra_files})
 
