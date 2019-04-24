@@ -44,13 +44,15 @@ it knows how to resolve this dependency. This can be achieved by executing the f
 
 ``rosdep update``
 
-Then, clone the pylon_camera-pkg, and the camera_control_msgs-pkg and install the pylon SDK in your catkin_ws:
+``cd PATH/TO/rdv_basler_driver``
 
-``cd ~/catkin_rdv/src/rdv_hardware_nodes/``
+Initialize camera_control_msgs
+
+``git submodule update --init --recursive``
 
 !! DEPRECATED FROM ORIGINAL (do not use this for hardware nodes): ``cd ~/catkin_ws/src/ && git clone https://github.com/magazino/pylon_camera.git && git clone https://github.com/magazino/camera_control_msgs.git``
 
-``rosdep install --from-paths rdv_basler_driver/ --ignore-src rdv_basler_driver/camera_control_msgs/ --rosdistro=$ROS_DISTRO -y``
+``rosdep install --from-paths . --ignore-src camera_control_msgs/ --rosdistro=$ROS_DISTRO -y``
 
 !! DEPRECATED FROM ORIGINAL (do not use this for hardware nodes): ``rosdep install --from-paths . --ignore-src --rosdistro=$ROS_DISTRO -y``
 
