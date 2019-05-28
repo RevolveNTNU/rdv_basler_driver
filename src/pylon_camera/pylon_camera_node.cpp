@@ -32,6 +32,7 @@
 #include <algorithm>
 #include <cmath>
 #include <vector>
+#include <chrono>
 #include "boost/multi_array.hpp"
 
 using diagnostic_msgs::DiagnosticStatus;
@@ -529,7 +530,8 @@ bool PylonCameraNode::grabImage()
         ROS_WARN("Pylon camera returned invalid image! Skipping");
         return false;
     }
-    img_raw_msg_.header.stamp = ros::Time::now();
+    // img_raw_msg_.header.stamp = ros::Time::now();
+    img_raw_msg_.header.stamp.nsec = std::chrono::high_resolution_clock::now().time_since_epoch().count();
     return true;
 }
 
