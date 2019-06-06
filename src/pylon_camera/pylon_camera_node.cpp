@@ -34,6 +34,10 @@
 #include <vector>
 #include "boost/multi_array.hpp"
 
+void alive(diagnostic_updater::DiagnosticStatusWrapper &stat) {
+    stat.summary(diagnostic_msgs::DiagnosticStatus::OK, "Alive");
+}
+
 using diagnostic_msgs::DiagnosticStatus;
 
 namespace pylon_camera
@@ -83,9 +87,10 @@ PylonCameraNode::PylonCameraNode()
       brightness_exp_lut_(),
       is_sleeping_(false)
 {
-    diagnostics_updater_.setHardwareID("none");
+    diagnostics_updater_.setHardwareID("basler camera");
     diagnostics_updater_.add("camera_availability", this, &PylonCameraNode::create_diagnostics);
     diagnostics_updater_.add("intrinsic_calibration", this, &PylonCameraNode::create_camera_info_diagnostics);
+    diagnostics_updater_.add("Alive", alive);
     diagnostics_trigger_ = nh_.createTimer(ros::Duration(2), &PylonCameraNode::diagnostics_timer_callback_, this);
 
     init();
