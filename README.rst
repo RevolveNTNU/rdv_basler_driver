@@ -1,3 +1,5 @@
+# :no_entry:️ DEPRECATED :no_entry:️
+
 ====
 **ROS-Driver for Basler Cameras**
 ====
